@@ -5,7 +5,7 @@ A Next.js mock interview prototype for SCSE4041 Prompt Engineering. Choose a rol
 ## Run locally
 
 1. Install Node.js 22 or later and run `npm ci`.
-2. Copy `.env.example` to `.env.local`. Set `GEMINI_API_KEY` to a key from [Google AI Studio](https://aistudio.google.com/apikey). The optional `GEMINI_MODEL` defaults to `gemini-3.1-flash-lite`.
+2. Copy `.env.example` to `.env.local`. Set `GEMINI_API_KEY` to a key from [Google AI Studio](https://aistudio.google.com/apikey). The optional `GEMINI_MODEL` defaults to `gemini-flash-lite-latest`.
 3. Run `npm run dev` and open [localhost:3000](http://localhost:3000).
 
 Keep the key server-side. Use practice answers without personal or confidential information. Google's [Gemini API pricing](https://ai.google.dev/gemini-api/docs/pricing) lists the model's free tier and data-use terms.

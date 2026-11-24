@@ -119,3 +119,23 @@ test('the bank contains two questions per practice track', () => {
   }
   assert.equal(new Set(questions.map(question => question.id)).size, questions.length);
 });
+
+test('an overloaded default model is skipped on the next submission after fallback succeeds', async () => {
+  const { evaluateAnswer: evaluate } = await import('../lib/feedback.js?overload-regression');
+  const models = [];
+  const submit = () => evaluate(new Request('http://localhost/api/feedback', {
+    method: 'POST', body: JSON.stringify({ questionId: 'physics-current', answer: physicsAnswer }),
+  }), {
+    env: { GEMINI_API_KEY: 'fixture' },
+    fetchModel: async url => {
+      const model = url.split('/').pop().split(':')[0];
+      models.push(model);
+      return model === 'gemini-flash-lite-latest'
+        ? new Response(null, { status: 503 })
+        : modelResponse(physicsFixture);
+    },
+  });
+  assert.equal((await submit()).status, 200);
+  assert.equal((await submit()).status, 200);
+  assert.deepEqual(models, ['gemini-flash-lite-latest', 'gemini-3.5-flash', 'gemini-3.5-flash']);
+});
